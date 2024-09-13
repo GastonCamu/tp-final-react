@@ -1,16 +1,14 @@
-"use client";
+import { Outlet } from 'react-router-dom';
 import React from 'react';
-import styles from './PublicLayout.module.css';
-import PropTypes from 'prop-types';
 
-const PublicLayout = ({ children }) => {
+import styles from './PublicLayout.module.css';
+
+const PublicLayout = () => {
 	return (
 		<div className={styles.publiclayout}>
- 			PublicLayout works!
+			<Outlet />
  		</div>
 	);
 };
-
-PublicLayout.propTypes = {};
 
 export default PublicLayout;
