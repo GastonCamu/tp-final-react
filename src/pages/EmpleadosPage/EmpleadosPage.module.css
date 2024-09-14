@@ -1,3 +1,84 @@
 .empleadospage {
-  
 }
+
+.titulo {
+    text-align: center;
+    font-size: 3vw;
+    margin: 1.5vw 0;
+}
+
+.fondo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: white;
+    margin: auto;
+    padding: 1vw;
+    margin: 1vw;
+    border-radius: 3px;
+}
+
+.empleadosTable {
+    width: 100%;
+    border-collapse: collapse;
+ }
+
+ .empleadosTable th, .empleadosTable td {
+    padding: 1vw 0 1vw 0;
+    text-align: center;
+ }
+ .empleadosTable th::selection,  .empleadosTable td::selection{
+    background-color: var(--color-5-light);
+    color: var(--color-1);
+ }
+
+ .empleadosTable th {
+    background-color: white;
+    font-size: 1.3vw;
+    font-weight: 600;
+    color: var(--color-5);
+ }
+
+.empleadosTable td {
+    font-size: 1.2vw;
+    font-weight: 400;
+    color: var(--color-5-light);
+}
+
+ .empleadosTable tr:nth-child(odd) {
+    background-color: var(--color-1-invisible);
+ }
+
+.putButton, .deleteButton {
+   cursor: pointer;
+   margin: 0 0.4vw 0 0.4vw;
+   border-radius: 2px;
+   padding: 0.4vw;
+} 
+
+.putButton {
+   background-color: var(--color-button-edit);
+}
+
+.putButton:hover {
+   background-color: var(--color-button-edit-dark);
+}
+
+.deleteButton {
+   background-color: var(--color-button-delete);
+}
+
+.deleteButton:hover {
+   background-color: var(--color-button-delete-dark);
+}
+
+.putButton img, .deleteButton img {
+   user-select: none;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   width: 1.3vw;
+   height: 1.3vw;
+   filter: invert(100%);
+} 

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import styles from './Navbar.module.css';
 
@@ -38,11 +38,25 @@ const Navbar = ({}) => {
  			<nav className={styles.nav}>
 				<ul className={styles.elementos}>
 					<div className={styles.left}>
-						<Link to="/home" className={styles.Link}>Inicio</Link>
-						<Link to="/empleados" className={styles.Link} >Empleados</Link>
+					<NavLink
+						draggable="false"
+						to="/home"
+						className={({ isActive }) => isActive ? `${styles.Link} ${styles.active}` : styles.Link}
+
+						>Inicio
+					</NavLink>
+
+						<NavLink 
+						draggable="false" 
+						to="/empleados" 
+						className={({ isActive }) => isActive ? `${styles.Link} ${styles.active}`: styles.Link}
+
+						>Empleados
+						</NavLink>
+
 					</div>
 					<div className={styles.right}>
-						<li ref={menuRef} className={`${styles.userMenu} ${isMenuOpen ? styles.menuOpen : ''}`}>
+						<li ref={menuRef} className={styles.userMenu}>
 							<span onClick={handleUserClick} className={`${styles.username} ${isMenuOpen ? styles.menuOpen : ''}`}>
 								{user.username}
 								{isMenuOpen ? '▲' : '▼'}
