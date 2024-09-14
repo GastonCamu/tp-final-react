@@ -65,8 +65,13 @@ const EmpleadosPage = ({}) => {
 
 	return (
 		<div className={s.empleadospage}>
- 			<h1 className={s.titulo}>EMPLEADOS</h1>
 			<div className={s.fondo}>
+				<div className={s.barraAcciones}>
+					<input placeholder='Ingrese su busqueda' type="text" />
+					<button className={s.buttonBuscar}>Buscar</button>
+					<button className={s.buttonMostrarTodo}>Mostrar Todo</button>
+					<button className={s.buttonNuevoEmpleado}>Nuevo empleado</button>
+				</div>
 				<table className={s.empleadosTable}>
 					<thead>
 						<tr>
@@ -82,7 +87,7 @@ const EmpleadosPage = ({}) => {
 					</thead>
 					<tbody>
 						{empleados.map((empleado) => (
-							<tr key={empleado.id}>
+							<tr className={s.trContent} key={empleado.id}>
 								
 								<td>{empleado.id}</td>
 								<td>{empleado.nroDocumento}</td>

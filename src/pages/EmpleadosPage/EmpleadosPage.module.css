@@ -1,10 +1,5 @@
 .empleadospage {
-}
-
-.titulo {
-    text-align: center;
-    font-size: 3vw;
-    margin: 1.5vw 0;
+   padding: 1vw 0;
 }
 
 .fondo {
@@ -16,6 +11,47 @@
     padding: 1vw;
     margin: 1vw;
     border-radius: 3px;
+}
+
+.barraAcciones {
+   width: 100%;
+   display: flex;
+   justify-content: space-around;
+}
+.barraAcciones button {
+   cursor: pointer;
+   user-select: none;
+   font-size: 1.5vw;
+   font-weight: 600;
+   padding: 1vw 2vw;
+   border-radius: 3px;
+}
+
+.barraAcciones input {
+   border: 1px solid var(--color-1);
+   border-radius: 3px;
+   width: 23vw;
+   padding: 0.5vw;
+   font-size: 1.4vw;
+   color: var(--color-5);
+}
+
+.buttonBuscar, .buttonMostrarTodo {
+   background-color: var(--color-2);
+   color: var(--color-5);
+}
+
+.buttonBuscar:hover, .buttonMostrarTodo:hover {
+   background-color: var(--color-2-dark);
+}
+
+.buttonNuevoEmpleado {
+   background-color: var(--color-5-light);
+   color: var(--color-1);
+}
+
+.buttonNuevoEmpleado:hover {
+   background-color: var(--color-5);
 }
 
 .empleadosTable {
@@ -47,6 +83,10 @@
 
  .empleadosTable tr:nth-child(odd) {
     background-color: var(--color-1-invisible);
+ }
+
+.trContent {
+   border-top: 1.5px solid var(--color-1-transparent);
  }
 
 .putButton, .deleteButton {
