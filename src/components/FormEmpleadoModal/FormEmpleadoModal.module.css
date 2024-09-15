@@ -1,53 +1,105 @@
 .formEmpleadoModal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .modalContent {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 400px;
-    position: relative;
-  }
-  
-  .closeButton {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-  }
-  
-  .formGroup {
-    margin-bottom: 15px;
-  }
-  
-  .formGroup label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .formGroup input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-  }
-  
-  .submitButton {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 1vw;
+  border-radius: 3px;
+  position: relative;
+  width: 60%;
+}
+
+.closeButton {
+  user-select: none;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background: none;
+  border: none;
+  font-size: 2vw;
+  padding: 0.5vw 0.8vw;
+  cursor: pointer;
+  background-color: var(--color-1);
+  border-radius: 0 0 0 3px;
+}
+
+.closeButton:hover {
+  background-color: var(--color-button-delete);
+}
+
+.titulo {
+  text-align: center;
+  font-size: 1.7vw;
+  padding-bottom: 1.5vw;
+}
+
+.titulo::selection {
+  background-color: var(--color-5-light);
+  color: var(--color-1);
+}
+
+.form {
+  border: 2px solid var(--color-1-dark);
+  border-radius: 5px;
+  padding: 1vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-size: 1.4vw;
+  font-weight: 400;
+
+}
+
+.formGroup {
+  display: flex;
+  align-items: center;
+  padding: 1.7vw 0;
+}
+
+.formGroup label {
+  padding-right: 1vw;
+  font-weight: 600;
+}
+
+.formGroup label::selection, .formGroup input::selection {
+  background-color: var(--color-5-light);
+  color: var(--color-1);
+}
+
+.formGroup input {
+  border-bottom: 1px solid black;
+  padding: 0.1vw 0.2vw;
+}
+
+.formGroup input:hover, .formGroup input:focus{
+  border-bottom: 2px solid black;
+}
+
+.submitButton {
+  user-select: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  padding: 1vw;
+  border-radius: 3px;
+  font-weight: 600;
+  background-color: var(--color-2);
+}
+
+.submitButton:hover {
+  background-color: var(--color-2-dark);
+}
