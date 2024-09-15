@@ -5,7 +5,8 @@ import s from './EmpleadosPage.module.css';
 import iconEdit from '../../assets/img/icon-edit-50.png';
 import iconDelete from '../../assets/img/icon-delete-50.png';
 
-import { FormEmpleadoModal } from '../../components'
+import { FormEmpleadoModal } from '../../components';
+import {formatFechaToDDMMYYYY, formatFechaToISO} from '../../utils'
 
 const API_URL = 'http://localhost:3000/empleados';
 
@@ -14,7 +15,9 @@ const EmpleadosPage = ({}) => {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 	const [isModalEmpleadoOpen, setIsModalEmpleadoOpen] = useState(false);
- 
+	const [empleadoActual, setEmpleadoActual] = useState(null);
+	const [modalEmpleadoConfig, setModalEmpleadoConfig] = useState({ titulo: '', botonTexto: '' });
+
 	useEffect(() => {
 		getEmpleados();
 	}, []);
@@ -32,9 +35,8 @@ const EmpleadosPage = ({}) => {
 			const empleado = await response.json();
 			setEmpleados([...empleados, empleado]);
 			setIsModalEmpleadoOpen(false);
-
 		} catch (error) {
-			setError('Hubo un error al crear el empleado')
+			setError('Hubo un error al crear el empleado');
 		}
 	};
 
@@ -52,7 +54,6 @@ const EmpleadosPage = ({}) => {
 			const data = await response.json();
 			setEmpleados(data);
 			setLoading(false);
-
 		} catch (error) {
 			setError('Hubo un error al obtener los empleados');
 			setLoading(false);
@@ -61,38 +62,67 @@ const EmpleadosPage = ({}) => {
 
 	const deleteEmpleado = async (id) => {
 		try {
-			await fetch(`${API_URL}/${id}`, {method: 'DELETE'});
+			await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
 			setEmpleados(empleados.filter((empleado) => empleado.id !== id));
 		} catch (error) {
 			setError('Hubo un error al eliminar al empleado');
 		}
 	};
 
-	const putEmpleado = (id) => {
+	const putEmpleado = async (empleadoEditado) => {
+		try {
+			const response = await fetch(`${API_URL}/${empleadoEditado.id}`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(empleadoEditado),
+			});
+
+			if (!response.ok) {
+				setError('Error al actualizar el empleado');
+				return;
+			}
+
+			const updatedEmpleado = await response.json();
+			setEmpleados(
+				empleados.map((empleado) =>
+					empleado.id === updatedEmpleado.id ? updatedEmpleado : empleado
+				)
+			);
+			setIsModalEmpleadoOpen(false);
+		} catch (error) {
+			setError('Hubo un error al actualizar el empleado');
+		}
 	};
 
-	const formatFecha = (fecha) => {
-        const date = new Date(fecha);
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const year = date.getFullYear();
-        return `${day}/${month}/${year}`;
-    };
+	const handleFormSubmit = (empleadoData) => {
 
-	const handleFormSubmit = (e) => {
-		e.preventDefault();
-		const nuevoEmpleado = {
-			nombre: e.target.nombre.value,
-			apellido: e.target.apellido.value,
-			email: e.target.email.value,
-			nroDocumento: e.target.nroDocumento.value,
-			fechaNacimiento: e.target.fechaNacimiento.value,
-			fechaIngreso: e.target.fechaIngreso.value,
-			fechaCreacion: e.target.fechaCreacion.value,
+		const empleadoConFechasFormateadas = {
+			...empleadoData,
+			fechaNacimiento: formatFechaToISO(empleadoData.fechaNacimiento),
+			fechaIngreso: formatFechaToISO(empleadoData.fechaIngreso),
+			fechaCreacion: formatFechaToISO(empleadoData.fechaCreacion),
 		};
-		createEmpleado(nuevoEmpleado);
+
+		if (empleadoActual) {
+			putEmpleado({ ...empleadoActual, ...empleadoConFechasFormateadas });
+		} else {
+			createEmpleado(empleadoConFechasFormateadas);
+		}
 	};
 
+	const handleNuevoEmpleado = () => {
+		setEmpleadoActual(null);
+		setModalEmpleadoConfig({ titulo: 'Nuevo Empleado', botonTexto: 'Crear Empleado' });
+		setIsModalEmpleadoOpen(true);
+	};
+
+	const handleEditarEmpleado = (empleado) => {
+		setEmpleadoActual(empleado);
+		setModalEmpleadoConfig({ titulo: 'Editar Empleado', botonTexto: 'Guardar Cambios' });
+		setIsModalEmpleadoOpen(true);
+	};
 
 	if (loading) return <p>Cargando empleados...</p>;
 	if (error) return <p>{error}</p>;
@@ -104,7 +134,7 @@ const EmpleadosPage = ({}) => {
 					<input placeholder='Ingrese su busqueda' type="text" />
 					<button className={s.buttonBuscar}>Buscar</button>
 					<button className={s.buttonMostrarTodo}>Mostrar Todo</button>
-					<button className={s.buttonNuevoEmpleado} onClick={() => setIsModalEmpleadoOpen(true)}>Nuevo empleado</button>
+					<button className={s.buttonNuevoEmpleado} onClick={handleNuevoEmpleado}>Nuevo empleado</button>
 				</div>
 				<table className={s.empleadosTable}>
 					<thead>
@@ -122,38 +152,44 @@ const EmpleadosPage = ({}) => {
 					<tbody>
 						{empleados.map((empleado) => (
 							<tr className={s.trContent} key={empleado.id}>
-								
 								<td>{empleado.id}</td>
 								<td>{empleado.nroDocumento}</td>
 								<td>{empleado.nombre} {empleado.apellido}</td>
 								<td>{empleado.email}</td>
-								<td>{formatFecha(empleado.fechaNacimiento)}</td>
-								<td>{formatFecha(empleado.fechaIngreso)}</td>
-								<td>{formatFecha(empleado.fechaCreacion)}</td>
+								<td>{formatFechaToDDMMYYYY(empleado.fechaNacimiento)}</td>
+								<td>{formatFechaToDDMMYYYY(empleado.fechaIngreso)}</td>
+								<td>{formatFechaToDDMMYYYY(empleado.fechaCreacion)}</td>
 								<td className={s.buttons}>
-
 									<button
 										className={s.putButton}
-										onClick={() => putEmpleado(empleado.id)}
-									><img draggable="false" src={iconEdit} alt="Modificar" />
+										onClick={() => handleEditarEmpleado(empleado)}
+									>
+										<img draggable="false" src={iconEdit} alt="Modificar" />
 									</button>
 
 									<button
 										className={s.deleteButton}
 										onClick={() => deleteEmpleado(empleado.id)}
-									><img draggable="false" src={iconDelete} alt="Eliminar" />
+									>
+										<img draggable="false" src={iconDelete} alt="Eliminar" />
 									</button>
-
 								</td>
 							</tr>
 						))}
 					</tbody>
 				</table>
 			</div>
-			{isModalEmpleadoOpen && <FormEmpleadoModal onClose={() => setIsModalEmpleadoOpen(false)} onSubmit={handleFormSubmit} />}
- 		</div>
+			{isModalEmpleadoOpen && (
+				<FormEmpleadoModal
+					onClose={() => setIsModalEmpleadoOpen(false)}
+					onSubmit={handleFormSubmit}
+					empleado={empleadoActual}
+					titulo={modalEmpleadoConfig.titulo}
+					botonTexto={modalEmpleadoConfig.botonTexto}
+				/>
+			)}
+		</div>
 	);
 };
-
 
 export default EmpleadosPage;
