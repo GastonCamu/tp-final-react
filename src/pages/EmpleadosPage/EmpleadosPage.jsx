@@ -5,18 +5,37 @@ import s from './EmpleadosPage.module.css';
 import iconEdit from '../../assets/img/icon-edit-50.png';
 import iconDelete from '../../assets/img/icon-delete-50.png';
 
+import { FormEmpleadoModal } from '../../components'
+
 const API_URL = 'http://localhost:3000/empleados';
 
 const EmpleadosPage = ({}) => {
 	const [empleados, setEmpleados] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
-
+	const [isModalEmpleadoOpen, setIsModalEmpleadoOpen] = useState(false);
+ 
 	useEffect(() => {
 		getEmpleados();
 	}, []);
 
-	const createEmpleado = () => {
+	const createEmpleado = async (nuevoEmpleado) => {
+		try {
+			const response = await fetch(API_URL, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(nuevoEmpleado),
+			});
+
+			const empleado = await response.json();
+			setEmpleados([...empleados, empleado]);
+			setIsModalEmpleadoOpen(false);
+
+		} catch (error) {
+			setError('Hubo un error al crear el empleado')
+		}
 	};
 
 	const getEmpleados = async () => {
@@ -60,6 +79,21 @@ const EmpleadosPage = ({}) => {
         return `${day}/${month}/${year}`;
     };
 
+	const handleFormSubmit = (e) => {
+		e.preventDefault();
+		const nuevoEmpleado = {
+			nombre: e.target.nombre.value,
+			apellido: e.target.apellido.value,
+			email: e.target.email.value,
+			nroDocumento: e.target.nroDocumento.value,
+			fechaNacimiento: e.target.fechaNacimiento.value,
+			fechaIngreso: e.target.fechaIngreso.value,
+			fechaCreacion: e.target.fechaCreacion.value,
+		};
+		createEmpleado(nuevoEmpleado);
+	};
+
+
 	if (loading) return <p>Cargando empleados...</p>;
 	if (error) return <p>{error}</p>;
 
@@ -70,7 +104,7 @@ const EmpleadosPage = ({}) => {
 					<input placeholder='Ingrese su busqueda' type="text" />
 					<button className={s.buttonBuscar}>Buscar</button>
 					<button className={s.buttonMostrarTodo}>Mostrar Todo</button>
-					<button className={s.buttonNuevoEmpleado}>Nuevo empleado</button>
+					<button className={s.buttonNuevoEmpleado} onClick={() => setIsModalEmpleadoOpen(true)}>Nuevo empleado</button>
 				</div>
 				<table className={s.empleadosTable}>
 					<thead>
@@ -116,6 +150,7 @@ const EmpleadosPage = ({}) => {
 					</tbody>
 				</table>
 			</div>
+			{isModalEmpleadoOpen && <FormEmpleadoModal onClose={() => setIsModalEmpleadoOpen(false)} onSubmit={handleFormSubmit} />}
  		</div>
 	);
 };
