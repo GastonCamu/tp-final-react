@@ -1,78 +1,81 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-
-import styles from './Navbar.module.css';
-
+import s from './Navbar.module.css';
+import iconMenu from '../../assets/img/icon-menu-50.png';
 import { useAuth } from '../../context';
 
-const Navbar = ({}) => {
-	const { user, logout } = useAuth();
-	const [ isMenuOpen, setIsMenuOpen ] = useState(false);
-	const menuRef = useRef(null);
-	
-	const handleUserClick = () => {
-		setIsMenuOpen(!isMenuOpen);
-	};
+const Navbar = () => {
+  const { user, logout } = useAuth();
+  const [isMenuUserOpen, setIsMenuUserOpen] = useState(false);
+  const [isMenuPrincipalOpen, setIsMenuPrincipalOpen] = useState(false);
+  const menuRef = useRef(null);
+  
+  const handleUserClick = () => {
+    setIsMenuUserOpen(!isMenuUserOpen);
+  };
 
-	const handleLogout = () => {
-		logout();
-		setIsMenuOpen(false);
-	}
+  const handleMenuPrincipalClick = () => {
+    setIsMenuPrincipalOpen(!isMenuPrincipalOpen);
+  };
 
-	useEffect(() => {
-		const handleClickOutside = (e) => {
-			if (menuRef.current && !menuRef.current.contains(e.target)) {
-				setIsMenuOpen(false);
-			}
-		};
+  const handleLogout = () => {
+    logout();
+    setIsMenuUserOpen(false);
+  }
 
-		document.addEventListener('mousedown', handleClickOutside);
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setIsMenuUserOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [menuRef]);
 
-		return () => {
-			document.removeEventListener('mousedown', handleClickOutside);
-		};
-	}, [menuRef]);
-
-	return (
-		<div className={styles.navbar}>
- 			<nav className={styles.nav}>
-				<ul className={styles.elementos}>
-					<div className={styles.left}>
-					<NavLink
-						draggable="false"
-						to="/home"
-						className={({ isActive }) => isActive ? `${styles.Link} ${styles.active}` : styles.Link}
-
-						>Inicio
+  return (
+    <div className={s.navbar}>
+      <nav className={s.nav}>
+        <ul className={s.elementos}>
+          <div className={s.left}>
+            <span className={`${s.buttonMenuPrincipal} ${isMenuPrincipalOpen ? s.buttonMenuPrincipalOpen : ''}`} onClick={handleMenuPrincipalClick}>
+              <img className={s.iconMenuPrincipal} 
+                   src={iconMenu} 
+                   alt="Menu" />
+            </span>
+            {isMenuPrincipalOpen && (
+              <div className={s.menuPrincipal}>
+				<div className={s.containerMenuPrincipal}>
+					<h2 className={s.menuTitle}>Navegación</h2>
+					<NavLink draggable="false" to="/home" className={({ isActive }) => isActive ? `${s.Link} ${s.active}` : s.Link}>
+					Inicio
 					</NavLink>
-
-						<NavLink 
-						draggable="false" 
-						to="/empleados" 
-						className={({ isActive }) => isActive ? `${styles.Link} ${styles.active}`: styles.Link}
-
-						>Empleados
-						</NavLink>
-
-					</div>
-					<div className={styles.right}>
-						<li ref={menuRef} className={styles.userMenu}>
-							<span onClick={handleUserClick} className={`${styles.username} ${isMenuOpen ? styles.menuOpen : ''}`}>
-								{user.username}
-								{isMenuOpen ? '▲' : '▼'}
-							</span>
-							{isMenuOpen && (
-								<div className={styles.dropDownMenu}>
-									<button onClick={handleLogout}>Cerrar sesión</button>
-								</div>
-							)}
-
-						</li>
-					</div>
-				</ul>
-			</nav>
- 		</div>
-	);
+					<NavLink draggable="false" to="/empleados" className={({ isActive }) => isActive ? `${s.Link} ${s.active}` : s.Link}>
+					Empleados
+					</NavLink>
+				</div>
+              </div>
+            )}
+          </div>
+          
+          <div className={s.right}>
+            <li ref={menuRef} className={s.userMenu}>
+              <span onClick={handleUserClick} className={`${s.username} ${isMenuUserOpen ? s.menuOpen : ''}`}>
+                {user.username} {isMenuUserOpen ? '▲' : '▼'}
+              </span>
+              {isMenuUserOpen && (
+                <div className={s.dropDownMenu}>
+                  <button onClick={handleLogout}>Cerrar sesión</button>
+                </div>
+              )}
+            </li>
+          </div>
+        </ul>
+      </nav>
+    </div>
+  );
 };
 
 export default Navbar;
