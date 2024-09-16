@@ -119,9 +119,9 @@
   }
   
   .dropDownMenu {
+    display: flex;
     position: absolute;
     top: 100%;
-    right: 0;
     width: 100%;
     background-color: var(--color-1-dark);
     padding: 1.2vw 0;
@@ -129,6 +129,7 @@
   }
   
   .dropDownMenu button {
+    cursor: pointer;
     background-color: var(--color-2);
     font-size: 1.4vw;
     padding: 0.8vw 0;

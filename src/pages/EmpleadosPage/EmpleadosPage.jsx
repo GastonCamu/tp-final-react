@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import s from './EmpleadosPage.module.css';
 import iconEdit from '../../assets/img/icon-edit-50.png';
 import iconDelete from '../../assets/img/icon-delete-50.png';
-import { FormEmpleadoModal } from '../../components';
+import { FormEmpleadoModal, PassiveAlert } from '../../components';
 import { formatFechaToDDMMYYYY, formatFechaToISO } from '../../utils';
 
 const API_URL = 'http://localhost:3000/empleados';
@@ -10,11 +10,11 @@ const API_URL = 'http://localhost:3000/empleados';
 const EmpleadosPage = () => {
     const [empleados, setEmpleados] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [isModalEmpleadoOpen, setIsModalEmpleadoOpen] = useState(false);
     const [empleadoActual, setEmpleadoActual] = useState(null);
     const [modalEmpleadoConfig, setModalEmpleadoConfig] = useState({ titulo: '', botonTexto: '' });
     const [searchTerm, setSearchTerm] = useState('');
+    const [alert, setAlert] = useState(null);
 
     useEffect(() => {
         getEmpleados();
@@ -29,11 +29,13 @@ const EmpleadosPage = () => {
                 },
                 body: JSON.stringify(nuevoEmpleado),
             });
+            if (!response.ok) throw new Error('Error al crear el empleado');
             const empleado = await response.json();
             setEmpleados([...empleados, empleado]);
             setIsModalEmpleadoOpen(false);
+            setAlert({ message: 'Empleado creado exitosamente', type: 'success' });
         } catch (error) {
-            setError('Hubo un error al crear el empleado');
+            setAlert({ message: 'Hubo un error al crear el empleado', type: 'error' });
         }
     };
 
@@ -44,16 +46,14 @@ const EmpleadosPage = () => {
             const response = await fetch(url);
 
             if (!response.ok) {
-                setError('Hubo un error al obtener los datos');
-                setLoading(false);
-                return;
+                setAlert({ message: 'Hubo un error al obtener los empleados', type: 'error' });
             }
 
             const data = await response.json();
             setEmpleados(data);
             setLoading(false);
         } catch (error) {
-            setError('Hubo un error al obtener los empleados');
+            setAlert({ message: 'Hubo un error al obtener los empleados', type: 'error' });
             setLoading(false);
         }
     };
@@ -62,8 +62,9 @@ const EmpleadosPage = () => {
         try {
             await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
             setEmpleados(empleados.filter((empleado) => empleado.id !== id));
+            setAlert({ message: 'Empleado eliminado exitosamente', type: 'success' });
         } catch (error) {
-            setError('Hubo un error al eliminar al empleado');
+            setAlert({ message: 'Hubo un error al eliminar al empleado', type: 'error' });
         }
     };
 
@@ -76,10 +77,7 @@ const EmpleadosPage = () => {
                 },
                 body: JSON.stringify(empleadoEditado),
             });
-            if (!response.ok) {
-                setError('Error al actualizar el empleado');
-                return;
-            }
+            if (!response.ok) throw new Error('Error al actualizar el empleado');
             const updatedEmpleado = await response.json();
             setEmpleados(
                 empleados.map((empleado) =>
@@ -87,8 +85,9 @@ const EmpleadosPage = () => {
                 )
             );
             setIsModalEmpleadoOpen(false);
+            setAlert({ message: 'Empleado actualizado exitosamente', type: 'success' });
         } catch (error) {
-            setError('Hubo un error al actualizar el empleado');
+            setAlert({ message: 'Hubo un error al actualizar el empleado', type: 'error' });
         }
     };
 
@@ -132,7 +131,6 @@ const EmpleadosPage = () => {
     };
 
     if (loading) return <p>Cargando empleados...</p>;
-    if (error) return <p>{error}</p>;
 
     return (
         <div className={s.empleadospage}>
@@ -197,6 +195,13 @@ const EmpleadosPage = () => {
                     empleado={empleadoActual}
                     titulo={modalEmpleadoConfig.titulo}
                     botonTexto={modalEmpleadoConfig.botonTexto}
+                />
+            )}
+            {alert && (
+                <PassiveAlert
+                    message={alert.message}
+                    type={alert.type}
+                    onClose={() => setAlert(null)}
                 />
             )}
         </div>
