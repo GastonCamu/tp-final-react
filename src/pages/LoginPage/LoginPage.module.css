@@ -1,16 +1,12 @@
 .loginpage {
     background-color: var(--color-5);
     color: var(--color-1);
-
     padding: 1.3vw;
     margin: 10vw auto;
     border-radius: 10px;
     width: 40%;
-
     font-size: 2vw;
     font-weight: 400;
-}
-.form {
 }
 
 .formDivs {

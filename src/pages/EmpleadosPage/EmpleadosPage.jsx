@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
+
 import s from './EmpleadosPage.module.css';
+
 import iconEdit from '../../assets/img/icon-edit-50.png';
 import iconDelete from '../../assets/img/icon-delete-50.png';
+
 import { FormEmpleadoModal, PassiveAlert, ActionAlert, LoadingModal } from '../../components';
 import { formatFechaToDDMMYYYY, formatFechaToISO } from '../../utils';
 
@@ -22,41 +25,36 @@ const EmpleadosPage = () => {
         getEmpleados();
     }, []);
 
-    const createEmpleado = async (nuevoEmpleado) => {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(nuevoEmpleado),
-            });
-            if (!response.ok) throw new Error('Error al crear el empleado');
-            const empleado = await response.json();
-            setEmpleados([...empleados, empleado]);
-            setIsModalEmpleadoOpen(false);
-            setAlert({ message: 'Empleado creado exitosamente', type: 'success' });
-        } catch (error) {
-            setAlert({ message: 'Hubo un error al crear el empleado', type: 'error' });
-        }
-    };
-
     const getEmpleados = async (query = '') => {
         try {
             setLoading(true);
             const url = query ? `${API_URL}?nroDocumento=${encodeURIComponent(query)}` : API_URL;
             const response = await fetch(url);
-
-            if (!response.ok) {
-                setAlert({ message: 'Hubo un error al obtener los empleados', type: 'error' });
-            }
-
+            if (!response.ok) throw new Error('Error al obtener los empleados');
             const data = await response.json();
             setEmpleados(data);
-            setLoading(false);
         } catch (error) {
             setAlert({ message: 'Hubo un error al obtener los empleados', type: 'error' });
+        } finally {
             setLoading(false);
+        }
+    };
+
+    const createEmpleado = async (nuevoEmpleado) => {
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(nuevoEmpleado),
+            });
+            if (!response.ok) throw new Error('Error al crear el empleado');
+            const empleado = await response.json();
+            setEmpleados([...empleados, empleado]);
+            setAlert({ message: 'Empleado creado exitosamente', type: 'success' });
+        } catch (error) {
+            setAlert({ message: 'Hubo un error al crear el empleado', type: 'error' });
+        } finally {
+            setIsModalEmpleadoOpen(false);
         }
     };
 
@@ -64,9 +62,7 @@ const EmpleadosPage = () => {
         try {
             const response = await fetch(`${API_URL}/${empleadoEditado.id}`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(empleadoEditado),
             });
             if (!response.ok) throw new Error('Error al actualizar el empleado');
@@ -76,10 +72,11 @@ const EmpleadosPage = () => {
                     empleado.id === updatedEmpleado.id ? updatedEmpleado : empleado
                 )
             );
-            setIsModalEmpleadoOpen(false);
             setAlert({ message: 'Empleado actualizado exitosamente', type: 'success' });
         } catch (error) {
             setAlert({ message: 'Hubo un error al actualizar el empleado', type: 'error' });
+        } finally {
+            setIsModalEmpleadoOpen(false);
         }
     };
 
@@ -112,14 +109,9 @@ const EmpleadosPage = () => {
     const handleEliminarEmpleado = (empleado) => {
         setEmpleadoAEliminar(empleado);
         setIsActiveAlertOpen(true);
-    }
+    };
 
-    const cancelarEliminar = () => {
-        setIsActiveAlertOpen(false);
-        setEmpleadoAEliminar(null);
-    }
-
-    const confirmEliminarEmpleado = async () => {
+    const confirmarEliminarEmpleado = async () => {
         if (empleadoAEliminar) {
             try {
                 await fetch(`${API_URL}/${empleadoAEliminar.id}`, { method: 'DELETE' });
@@ -131,7 +123,12 @@ const EmpleadosPage = () => {
                 setIsActiveAlertOpen(false);
                 setEmpleadoAEliminar(null);
             }
-        };
+        }
+    };
+
+    const cancelarEliminar = () => {
+        setIsActiveAlertOpen(false);
+        setEmpleadoAEliminar(null);
     };
 
     const handleMostrarTodo = () => {
@@ -217,7 +214,7 @@ const EmpleadosPage = () => {
                 <ActionAlert
                     message={`¿Estás seguro que deseas eliminar a ${empleadoAEliminar?.nombre} ${empleadoAEliminar?.apellido}?`}
                     isOpen={isActiveAlertOpen}
-                    onConfirm={confirmEliminarEmpleado}
+                    onConfirm={confirmarEliminarEmpleado}
                     onCancel={cancelarEliminar}
                 />
             )}
