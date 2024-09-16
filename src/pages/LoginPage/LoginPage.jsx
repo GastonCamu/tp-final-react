@@ -36,6 +36,7 @@ const LoginPage = ({}) => {
 						className={styles.input}
 						type="text" 
 						name='username'
+						placeholder='Gaston'
 						value={values.username}
 						onChange={handleChange}
 					/>
@@ -47,6 +48,7 @@ const LoginPage = ({}) => {
 					className={styles.input} 
 					type="password"
 					name='password'
+					placeholder='1234'
 					value={values.password}
 					onChange={handleChange} 
 					/>
