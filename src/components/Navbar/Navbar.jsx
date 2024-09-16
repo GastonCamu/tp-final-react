@@ -1,7 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+
 import s from './Navbar.module.css';
+
 import iconMenu from '../../assets/img/icon-menu-50.png';
+
 import { useAuth } from '../../context';
 
 const Navbar = () => {
@@ -9,19 +12,19 @@ const Navbar = () => {
   const [isMenuUserOpen, setIsMenuUserOpen] = useState(false);
   const [isMenuPrincipalOpen, setIsMenuPrincipalOpen] = useState(false);
   const menuRef = useRef(null);
-  
+
   const handleUserClick = () => {
-    setIsMenuUserOpen(!isMenuUserOpen);
+    setIsMenuUserOpen((prev) => !prev);
   };
 
   const handleMenuPrincipalClick = () => {
-    setIsMenuPrincipalOpen(!isMenuPrincipalOpen);
+    setIsMenuPrincipalOpen((prev) => !prev);
   };
 
   const handleLogout = () => {
     logout();
     setIsMenuUserOpen(false);
-  }
+  };
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -29,40 +32,56 @@ const Navbar = () => {
         setIsMenuUserOpen(false);
       }
     };
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [menuRef]);
+  }, []);
 
   return (
     <div className={s.navbar}>
       <nav className={s.nav}>
         <ul className={s.elementos}>
           <div className={s.left}>
-            <span className={`${s.buttonMenuPrincipal} ${isMenuPrincipalOpen ? s.buttonMenuPrincipalOpen : ''}`} onClick={handleMenuPrincipalClick}>
-              <img className={s.iconMenuPrincipal} 
-                   src={iconMenu} 
-                   alt="Menu" />
+            <span
+              className={`${s.buttonMenuPrincipal} ${isMenuPrincipalOpen ? s.buttonMenuPrincipalOpen : ''}`}
+              onClick={handleMenuPrincipalClick}
+            >
+              <img
+                className={s.iconMenuPrincipal}
+                src={iconMenu}
+                alt="Menu"
+              />
             </span>
             {isMenuPrincipalOpen && (
               <div className={s.menuPrincipal}>
-				<div className={s.containerMenuPrincipal}>
-					<h2 className={s.menuTitle}>Navegación</h2>
-					<NavLink draggable="false" to="/home" className={({ isActive }) => isActive ? `${s.Link} ${s.active}` : s.Link}>
-					Inicio
-					</NavLink>
-					<NavLink draggable="false" to="/empleados" className={({ isActive }) => isActive ? `${s.Link} ${s.active}` : s.Link}>
-					Empleados
-					</NavLink>
-				</div>
+                <div className={s.containerMenuPrincipal}>
+                  <h2 className={s.menuTitle}>Navegación</h2>
+                  <NavLink
+                    draggable="false"
+                    to="/home"
+                    className={({ isActive }) => isActive ? `${s.Link} ${s.active}` : s.Link}
+                  >
+                    Inicio
+                  </NavLink>
+                  <NavLink
+                    draggable="false"
+                    to="/empleados"
+                    className={({ isActive }) => isActive ? `${s.Link} ${s.active}` : s.Link}
+                  >
+                    Empleados
+                  </NavLink>
+                </div>
               </div>
             )}
           </div>
-          
           <div className={s.right}>
             <li ref={menuRef} className={s.userMenu}>
-              <span onClick={handleUserClick} className={`${s.username} ${isMenuUserOpen ? s.menuOpen : ''}`}>
+              <span
+                onClick={handleUserClick}
+                className={`${s.username} ${isMenuUserOpen ? s.menuOpen : ''}`}
+              >
                 {user.username} {isMenuUserOpen ? '▲' : '▼'}
               </span>
               {isMenuUserOpen && (

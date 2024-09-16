@@ -1,14 +1,15 @@
 import React from 'react';
-import styles from './PrivateLayout.module.css';
+import { Outlet } from 'react-router-dom';
+
+import s from './PrivateLayout.module.css';
 
 import { Navbar } from '../../components'
-import { Outlet } from 'react-router-dom';
 
 const PrivateLayout = ({ children }) => {
 	return (
-		<div className={styles.privatelayout}>
+		<div className={s.privatelayout}>
  			<Navbar />
-			<main className={styles.main}>
+			<main className={s.main}>
 				<Outlet />
 			</main>
  		</div>

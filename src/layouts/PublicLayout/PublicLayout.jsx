@@ -1,11 +1,11 @@
-import { Outlet } from 'react-router-dom';
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 
-import styles from './PublicLayout.module.css';
+import s from './PublicLayout.module.css';
 
 const PublicLayout = () => {
 	return (
-		<div className={styles.publiclayout}>
+		<div className={s.publiclayout}>
 			<Outlet />
  		</div>
 	);
