@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import s from './EmpleadosPage.module.css';
 import iconEdit from '../../assets/img/icon-edit-50.png';
 import iconDelete from '../../assets/img/icon-delete-50.png';
-import { FormEmpleadoModal, PassiveAlert, ActionAlert } from '../../components';
+import { FormEmpleadoModal, PassiveAlert, ActionAlert, LoadingModal } from '../../components';
 import { formatFechaToDDMMYYYY, formatFechaToISO } from '../../utils';
 
 const API_URL = 'http://localhost:3000/empleados';
@@ -147,10 +147,9 @@ const EmpleadosPage = () => {
         setSearchTerm(event.target.value);
     };
 
-    if (loading) return <p>Cargando empleados...</p>;
-
     return (
         <div className={s.empleadospage}>
+            {loading && <LoadingModal />}
             <div className={s.fondo}>
                 <div className={s.barraAcciones}>
                     <input
