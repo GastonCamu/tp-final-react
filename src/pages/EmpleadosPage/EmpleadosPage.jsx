@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import s from './EmpleadosPage.module.css';
 import iconEdit from '../../assets/img/icon-edit-50.png';
 import iconDelete from '../../assets/img/icon-delete-50.png';
-import { FormEmpleadoModal, PassiveAlert } from '../../components';
+import { FormEmpleadoModal, PassiveAlert, ActionAlert } from '../../components';
 import { formatFechaToDDMMYYYY, formatFechaToISO } from '../../utils';
 
 const API_URL = 'http://localhost:3000/empleados';
@@ -15,6 +15,8 @@ const EmpleadosPage = () => {
     const [modalEmpleadoConfig, setModalEmpleadoConfig] = useState({ titulo: '', botonTexto: '' });
     const [searchTerm, setSearchTerm] = useState('');
     const [alert, setAlert] = useState(null);
+    const [isActiveAlertOpen, setIsActiveAlertOpen] = useState(false);
+    const [empleadoAEliminar, setEmpleadoAEliminar] = useState(null);
 
     useEffect(() => {
         getEmpleados();
@@ -55,16 +57,6 @@ const EmpleadosPage = () => {
         } catch (error) {
             setAlert({ message: 'Hubo un error al obtener los empleados', type: 'error' });
             setLoading(false);
-        }
-    };
-
-    const deleteEmpleado = async (id) => {
-        try {
-            await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-            setEmpleados(empleados.filter((empleado) => empleado.id !== id));
-            setAlert({ message: 'Empleado eliminado exitosamente', type: 'success' });
-        } catch (error) {
-            setAlert({ message: 'Hubo un error al eliminar al empleado', type: 'error' });
         }
     };
 
@@ -115,6 +107,31 @@ const EmpleadosPage = () => {
         setEmpleadoActual(empleado);
         setModalEmpleadoConfig({ titulo: 'Editar Empleado', botonTexto: 'Guardar Cambios' });
         setIsModalEmpleadoOpen(true);
+    };
+
+    const handleEliminarEmpleado = (empleado) => {
+        setEmpleadoAEliminar(empleado);
+        setIsActiveAlertOpen(true);
+    }
+
+    const cancelarEliminar = () => {
+        setIsActiveAlertOpen(false);
+        setEmpleadoAEliminar(null);
+    }
+
+    const confirmEliminarEmpleado = async () => {
+        if (empleadoAEliminar) {
+            try {
+                await fetch(`${API_URL}/${empleadoAEliminar.id}`, { method: 'DELETE' });
+                setEmpleados(empleados.filter((empleado) => empleado.id !== empleadoAEliminar.id));
+                setAlert({ message: 'Empleado eliminado exitosamente', type: 'success' });
+            } catch (error) {
+                setAlert({ message: 'Hubo un error al eliminar al empleado', type: 'error' });
+            } finally {
+                setIsActiveAlertOpen(false);
+                setEmpleadoAEliminar(null);
+            }
+        };
     };
 
     const handleMostrarTodo = () => {
@@ -178,7 +195,7 @@ const EmpleadosPage = () => {
                                     </button>
                                     <button
                                         className={s.deleteButton}
-                                        onClick={() => deleteEmpleado(empleado.id)}
+                                        onClick={() => handleEliminarEmpleado(empleado)}
                                     >
                                         <img draggable="false" src={iconDelete} alt="Eliminar" />
                                     </button>
@@ -195,6 +212,14 @@ const EmpleadosPage = () => {
                     empleado={empleadoActual}
                     titulo={modalEmpleadoConfig.titulo}
                     botonTexto={modalEmpleadoConfig.botonTexto}
+                />
+            )}
+            {isActiveAlertOpen && (
+                <ActionAlert
+                    message={`¿Estás seguro que deseas eliminar a ${empleadoAEliminar?.nombre} ${empleadoAEliminar?.apellido}?`}
+                    isOpen={isActiveAlertOpen}
+                    onConfirm={confirmEliminarEmpleado}
+                    onCancel={cancelarEliminar}
                 />
             )}
             {alert && (
