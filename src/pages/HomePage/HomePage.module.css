@@ -67,6 +67,8 @@
   }
   
   .infoSection {
+    display: flex;
+    flex-direction: column;
     background-color: white;
     padding: 2vw;
     border-radius: 10px;
@@ -74,10 +76,13 @@
     transition: background-color 0.3s ease;
   }
   
+  .infoSection h2 {
+    margin-top: 1vw;
+  }
+
   .infoSection h3 {
     margin-bottom: 1vw;
 
-    transition: background 400ms;
   }
   
   .infoSection:hover {
@@ -95,7 +100,7 @@
     text-align: left;
     font-size: 1.5vw;
     font-weight: 400;
-    margin: 1vw 0;
+    margin: 1.3vw 0;
   }
 
   .infoSection p span {
@@ -114,10 +119,11 @@
   }
 
   .iconImage {
-    width: 4vw;
+    width: 5vw;
+    height: 5vw;
   }
   .btnImage {
-    width: auto;
-    height: auto;
-
+    width: 15vw;
+    height: 10vh;
+    object-fit: cover;
   }

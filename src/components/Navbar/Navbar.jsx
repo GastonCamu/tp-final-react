@@ -29,7 +29,7 @@ const Navbar = () => {
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setIsMenuUserOpen(false);
+        setIsMenuPrincipalOpen(false);
       }
     };
 
@@ -55,7 +55,7 @@ const Navbar = () => {
               />
             </span>
             {isMenuPrincipalOpen && (
-              <div className={s.menuPrincipal}>
+              <div ref={menuRef} className={s.menuPrincipal}>
                 <div className={s.containerMenuPrincipal}>
                   <h2 className={s.menuTitle}>Navegación</h2>
                   <NavLink
@@ -77,7 +77,7 @@ const Navbar = () => {
             )}
           </div>
           <div className={s.right}>
-            <li ref={menuRef} className={s.userMenu}>
+            <li className={s.userMenu}>
               <span
                 onClick={handleUserClick}
                 className={`${s.username} ${isMenuUserOpen ? s.menuOpen : ''}`}
