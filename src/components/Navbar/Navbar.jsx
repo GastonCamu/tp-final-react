@@ -52,6 +52,7 @@ const Navbar = () => {
                 className={s.iconMenuPrincipal}
                 src={iconMenu}
                 alt="Menu"
+                draggable="false"
               />
             </span>
             {isMenuPrincipalOpen && (

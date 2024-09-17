@@ -119,11 +119,10 @@
   }
 
   .iconImage {
-    width: 5vw;
-    height: 5vw;
+    width: 4vw;
+    height: 4vw;
   }
   .btnImage {
-    width: 15vw;
+    width: 13vw;
     height: 10vh;
-    object-fit: cover;
   }

@@ -27,9 +27,12 @@ Además, la guía incluye información sobre:
 La barra de navegación en la parte superior de la página (`Navbar`) permite a los usuarios acceder fácilmente a las diferentes secciones de la aplicación. Incluye:
 
 -   **Menú Principal**: Un menú desplegable que se abre al hacer clic en el ícono de menú. Desde este menú, puedes navegar entre las secciones de `Inicio` y `Empleados`. **El menú se cierra automáticamente si haces clic fuera de él.**
-
+    
 -   **Menú de Usuario**: Muestra el nombre del usuario y permite cerrar sesión.
+    
 
 ## Responsividad
 
 La aplicación está diseñada para ser **responsive**, adaptándose correctamente a pantallas de computadora.
+
+En la carpeta `src/assets/img/Perspectivas de la app`, pueden ver ejemplos de cómo se adapta la aplicación a diferentes tamaños de pantallas de ordenador.
