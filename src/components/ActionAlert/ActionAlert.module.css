@@ -13,7 +13,7 @@
 
 .actionalert {
     user-select: none;
-    background: var(--color-1);
+    background: white;
     padding: 2vw;
     border-radius: 3px;
     box-shadow: 0 0 10px var(--color-5-light-transparent);
@@ -44,17 +44,25 @@
 
 .confirmButton {
     background-color: var(--color-success);
+
+    transition: background 400ms;
 }
 
 .confirmButton:hover {
     background-color: var(--color-success-dark);
+
+    transition: background 400ms;
 }
 
 .cancelButton {
     background-color: var(--color-button-delete);
+
+    transition: background 400ms;
 }
 .cancelButton:hover {
     background-color: var(--color-button-delete-dark);
+
+    transition: background 400ms;
 }
 .closeButton {
     background-color: var(--color-1-dark);
@@ -65,8 +73,12 @@
     font-size: 1.5vw;
     font-weight: 400;
     cursor: pointer;
+
+    transition: background 400ms;
 }
 
 .closeButton:hover {
     background-color: var(--color-button-delete);
+
+    transition: background 400ms;
 }

@@ -34,21 +34,20 @@
   cursor: pointer;
   background-color: var(--color-1);
   border-radius: 0 0 0 3px;
+
+  transition: background 400ms;
 }
 
 .closeButton:hover {
   background-color: var(--color-button-delete);
+
+  transition: background 400ms;
 }
 
 .titulo {
   text-align: center;
   font-size: 1.7vw;
   padding-bottom: 1.5vw;
-}
-
-.titulo::selection {
-  background-color: var(--color-5-light);
-  color: var(--color-1);
 }
 
 .form {
@@ -73,18 +72,17 @@
   font-weight: 600;
 }
 
-.formGroup label::selection, .formGroup input::selection {
-  background-color: var(--color-5-light);
-  color: var(--color-1);
-}
-
 .formGroup input {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid var(--color-5);
   padding: 0.1vw 0.2vw;
+
+  transition: border 100ms;
 }
 
 .formGroup input:hover, .formGroup input:focus{
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid var(--color-5);
+
+  transition: border 100ms;
 }
 
 .submitButton {
@@ -98,8 +96,12 @@
   border-radius: 3px;
   font-weight: 600;
   background-color: var(--color-2);
+
+  transition: background 400ms;
 }
 
 .submitButton:hover {
   background-color: var(--color-2-dark);
+
+  transition: background 400ms;
 }

@@ -5,3 +5,8 @@ body {
 
     background-color: var(--color-1);
 }
+
+*::selection {
+    background-color: var(--color-5-light);
+    color: var(--color-1);
+}

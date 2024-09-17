@@ -39,19 +39,27 @@
 .buttonBuscar, .buttonMostrarTodo {
    background-color: var(--color-2);
    color: var(--color-5);
+
+   transition: background 400ms;
 }
 
 .buttonBuscar:hover, .buttonMostrarTodo:hover {
    background-color: var(--color-2-dark);
+
+   transition: background 400ms;
 }
 
 .buttonNuevoEmpleado {
    background-color: var(--color-5-light);
    color: var(--color-1);
+
+   transition: background 400ms;
 }
 
 .buttonNuevoEmpleado:hover {
    background-color: var(--color-5);
+
+   transition: background 400ms;
 }
 
 .empleadosTable {
@@ -62,10 +70,6 @@
  .empleadosTable th, .empleadosTable td {
     padding: 1vw 0 1vw 0;
     text-align: center;
- }
- .empleadosTable th::selection,  .empleadosTable td::selection{
-    background-color: var(--color-5-light);
-    color: var(--color-1);
  }
 
  .empleadosTable th {
@@ -98,18 +102,26 @@
 
 .putButton {
    background-color: var(--color-button-edit);
+
+   transition: background 400ms;
 }
 
 .putButton:hover {
    background-color: var(--color-button-edit-dark);
+
+   transition: background 400ms;
 }
 
 .deleteButton {
    background-color: var(--color-button-delete);
+
+   transition: background 400ms;
 }
 
 .deleteButton:hover {
    background-color: var(--color-button-delete-dark);
+
+   transition: background 400ms;
 }
 
 .putButton img, .deleteButton img {

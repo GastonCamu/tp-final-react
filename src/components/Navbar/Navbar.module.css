@@ -80,17 +80,25 @@
     font-weight: 400;
     margin: 0.6vw 0;
     border-radius: 3px;
+
+    transition: background 400ms;
   }
   
   .Link:hover {
     background-color: var(--color-5-light);
+
+    transition: background 400ms;
   }
   
   .active {
     background-color: var(--color-3);
+
+    transition: background 200ms;
   }
   .active:hover {
     background-color: var(--color-3);
+
+    transition: background 200ms;
   }
   
   .right {
@@ -107,10 +115,14 @@
     font-weight: 400;
     border-radius: 7px;
     user-select: none;
+
+    transition: background 500ms;
   }
   
   .userMenu:hover {
     background-color: var(--color-1-dark);
+
+    transition: background 500ms;
   }
   
   .username {
@@ -138,10 +150,14 @@
     width: 90%;
     margin: auto;
     border-radius: 10px;
+
+    transition: background 500ms;
   }
   
   .dropDownMenu button:hover {
     background-color: var(--color-3);
+
+    transition: background 500ms;
   }
   
   .menuOpen {
