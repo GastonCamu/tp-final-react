@@ -2,7 +2,7 @@
     background-color: var(--color-2);
     color: var(--color-5);
     width: 100%;
-    height: 12vh;
+    height: 13vh;
   }
   
   .nav {
@@ -29,7 +29,7 @@
     margin-left: 1vw;
     cursor: pointer;
     user-select: none;
-    height: 12vh;
+    height: 13vh;
   }
 
   .buttonMenuPrincipalOpen {
@@ -43,8 +43,8 @@
   }
   
   .iconMenuPrincipal {
-    width: 2.3vw;
-    height: 2.3vw;
+    width: 2.5vw;
+    height: 2.5vw;
   }
   
   .menuTitle {
