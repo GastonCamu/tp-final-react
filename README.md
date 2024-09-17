@@ -2,6 +2,12 @@
 
 Esta es una aplicación para la gestión de empleados que cumple con todas las condiciones mínimas solicitadas. A continuación, encontrarás una guía detallada sobre las funcionalidades principales y cómo utilizar la aplicación.
 
+## Links
+
+### Link Repositorio: [GastonCamu/tp-final-react (github.com)](https://github.com/GastonCamu/tp-final-react)
+
+### Link Deploy: [App Empleados (empleados-react-online.vercel.app)](https://empleados-react-online.vercel.app/)
+
 ## Requisitos Cumplidos
 
 -   **CRUD Completo**: La aplicación permite Crear, Leer, Actualizar y Eliminar empleados.
